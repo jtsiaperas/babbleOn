@@ -33,7 +33,7 @@ mongoose.connect(MONGODB_URI);
 // Routes
 
 // A GET route for scraping the echoJS website
-app.get("/", function(req, res) {
+app.get("/scrape", function(req, res) {
   // First, we grab the body of the html with request
   axios.get("http://www.bbc.com/").then(function(response) {
     // Then, we load that into cheerio and save it to $ for a shorthand selector
@@ -74,7 +74,7 @@ app.get("/", function(req, res) {
 });
 
 // Route for getting all Articles from the db
-app.get("/articles", function(req, res) {
+app.get("/", function(req, res) {
   // TODO: Finish the route so it grabs all of the articles
   db.Article.find({})
   .populate("notes")
