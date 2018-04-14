@@ -74,7 +74,7 @@ app.get("/scrape", function(req, res) {
 });
 
 // Route for getting all Articles from the db
-app.get("/", function(req, res) {
+app.get("/articles", function(req, res) {
   // TODO: Finish the route so it grabs all of the articles
   db.Article.find({})
   .populate("notes")
