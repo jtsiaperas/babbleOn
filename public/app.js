@@ -3,8 +3,8 @@ $.getJSON("/articles", function(data) {
   // For each one
   for (var i = 0; i < data.length; i++) {
     // Display the apropos information on the page
-    $("#articles").append(`<p data-id=${data[i]._id}>${data[i].title}<br />
-      <a href = 'http://www.bbc.com${data[i].link}' target="_blank">www.bbc.com${data[i].link} </a>
+    $("#articles").append(`<p><h2 class= "article" data-id=${data[i]._id}>${data[i].title}</h2>
+      <a href = 'http://www.bbc.com${data[i].link}' target="_blank">www.bbc.com${data[i].link}</a>
       <br /><br />${data[i].summary}<br />
       <img src = ${data[i].image} /></p><div id=${data[i]._id}></div>`);
   }
@@ -12,12 +12,12 @@ $.getJSON("/articles", function(data) {
 
 
 // Whenever someone clicks a p tag
-$(document).on("click", "p", function() {
+$(document).on("click", ".article", function() {
   // Empty the notes from the note section
   
   // Save the id from the p tag
   var thisId = $(this).attr("data-id");
-
+  
   // Now make an ajax call for the Article
   $.ajax({
     method: "GET",
@@ -26,7 +26,8 @@ $(document).on("click", "p", function() {
     // With that done, add the note information to the page
     .then(function(data) {
       thisId = "#" + thisId;
-      console.log(data);
+      
+      $(thisId).empty();
       // The title of the article
       $(thisId).append("<h3> Comments </h3>");
       if (data.notes) {
@@ -66,10 +67,11 @@ $(document).on("click", "#savenote", function() {
   })
     // With that done
     .then(function(data) {
+      thisId = "#" + thisId;
       // Log the response
       console.log(data);
       // Empty the notes section
-      location.reload();
+      $(thisId).empty();
     });
 
   // Also, remove the values entered in the input and textarea for note entry
