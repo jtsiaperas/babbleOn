@@ -6,7 +6,7 @@ $.getJSON("/articles", function(data) {
     $("#articles").append(`<p><h2 class= "article" data-id=${data[i]._id}>${data[i].title}</h2>
       <a href = 'http://www.bbc.com${data[i].link}' target="_blank">www.bbc.com${data[i].link}</a>
       <br /><br />${data[i].summary}<br />
-      <img src = ${data[i].image} /></p><div id=${data[i]._id}></div>`);
+      </p><div id=${data[i]._id}></div>`);
   }
 });
 
