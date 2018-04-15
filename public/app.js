@@ -48,7 +48,7 @@ $(document).on("click", ".article", function() {
       }
       // An input to enter a new title
 
-      $(thisId).append(`<div class="input-group mb-3">
+      $(thisId).append(`<div id="myNote"><div class="input-group mb-3">
       <div class="input-group-prepend">
         <span class="input-group-text">Title</span>
       </div>
@@ -62,7 +62,7 @@ $(document).on("click", ".article", function() {
         <textarea class="form-control" id='bodyinput' name='body' aria-label="Comment"></textarea>
       </div>`);
       // A button to submit a new note, with the id of the article saved to it
-      $(thisId).append(`<button class = "btn mb-3" data-id=${data._id} id='savenote'>Save Note</button>`);
+      $(thisId).append(`<button class = "btn mb-3" data-id=${data._id} id='savenote'>Save Note</button></div>`);
 
       
     });
@@ -72,25 +72,24 @@ $(document).on("click", ".article", function() {
 $(document).on("click", "#savenote", function() {
   // Grab the id associated with the article from the submit button
   var thisId = $(this).attr("data-id");
-
+  const title = $("#titleinput").val();
+  const body = $("#bodyinput").val();
   // Run a POST request to change the note, using what's entered in the inputs
   $.ajax({
     method: "POST",
     url: "/articles/" + thisId,
     data: {
       // Value taken from title input
-      title: $("#titleinput").val(),
+      title: title,
       // Value taken from note textarea
-      body: $("#bodyinput").val()
+      body: body
     }
   })
     // With that done
     .then(function(data) {
-      thisId = "#" + thisId;
-      // Log the response
       console.log(data);
-      // Empty the notes section
-      $(thisId).reload();
+      $("#myNote").prepend(`<div class="card mb-3"><div class="card-header">${title}</div>
+          <div class="card-body"> ${body} </div></div>`);
     });
 
   // Also, remove the values entered in the input and textarea for note entry
