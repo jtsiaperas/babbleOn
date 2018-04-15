@@ -1,12 +1,21 @@
+$(document).ready(function(){
+  $.ajax({
+    method: "GET",
+    url: "/scrape"
+  }).then(function(){
+    console.log("Scraped!")
+  }
+  );
+});
 // Grab the articles as a json
 $.getJSON("/articles", function(data) {
   // For each one
   for (var i = 0; i < data.length; i++) {
     // Display the apropos information on the page
-    $("#articles").append(`<p><h2 class= "article" data-id=${data[i]._id}>${data[i].title}</h2>
-      <a href = 'http://www.bbc.com${data[i].link}' target="_blank">www.bbc.com${data[i].link}</a>
+    $("#articles").append(`<div class= "card mb-3"><div class="card-header article" data-id=${data[i]._id}>${data[i].title}</div>
+      <div class= "card-body"> <a href = 'http://www.bbc.com${data[i].link}' target="_blank">www.bbc.com${data[i].link}</a>
       <br /><br />${data[i].summary}<br />
-      </p><div id=${data[i]._id}></div>`);
+      </div></div><div class= "comments" id=${data[i]._id}></div>`);
   }
 });
 
@@ -29,21 +38,31 @@ $(document).on("click", ".article", function() {
       
       $(thisId).empty();
       // The title of the article
-      $(thisId).append("<h3> Comments </h3>");
+      $(thisId).append(`<div class="card mb-3"><div class="card-header">Comments</div></div>`);
       if (data.notes) {
         var notes = data.notes;
         notes.forEach(function(note){
-          $(thisId).append("<h3>"+ note.title + "</h3>");
-          $(thisId).append("<p>"+ note.body + "</p>");
+          $(thisId).append(`<div class="card mb-3"><div class="card-header">${note.title}</div>
+          <div class="card-body"> ${note.body} </div></div>`);
         });
       }
       // An input to enter a new title
 
-      $(thisId).append("<input id='titleinput' name='title' placeholder='New title'></input>");
+      $(thisId).append(`<div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Title</span>
+      </div>
+      <input id='titleinput' name='title' type="text" class="form-control" aria-label="Title" aria-describedby="Title">
+      </div>`);
       // A textarea to add a new note body
-      $(thisId).append("<textarea id='bodyinput' name='body' placeholder='New body'></textarea>");
+      $(thisId).append(`<div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text">Comment</span>
+      </div>
+        <textarea class="form-control" id='bodyinput' name='body' aria-label="Comment"></textarea>
+      </div>`);
       // A button to submit a new note, with the id of the article saved to it
-      $(thisId).append("<button data-id='" + data._id + "' id='savenote'>Save Note</button>");
+      $(thisId).append(`<button class = "btn mb-3" data-id=${data._id} id='savenote'>Save Note</button>`);
 
       
     });
@@ -71,7 +90,7 @@ $(document).on("click", "#savenote", function() {
       // Log the response
       console.log(data);
       // Empty the notes section
-      $(thisId).empty();
+      $(thisId).reload();
     });
 
   // Also, remove the values entered in the input and textarea for note entry
