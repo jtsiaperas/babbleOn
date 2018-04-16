@@ -20,10 +20,10 @@ $.getJSON("/articles", function(data) {
 });
 
 
-// Whenever someone clicks a p tag
+// Whenever someone clicks an article
 $(document).on("click", ".article", function() {
   // Empty the notes from the note section
-  
+  $(".comments").empty();
   // Save the id from the p tag
   var thisId = $(this).attr("data-id");
   
@@ -88,6 +88,7 @@ $(document).on("click", "#savenote", function() {
     // With that done
     .then(function(data) {
       console.log(data);
+      //displays new note on screen without another AJAX call
       $("#myNote").prepend(`<div class="card mb-3"><div class="card-header">${title}</div>
           <div class="card-body"> ${body} </div></div>`);
     });
