@@ -12,7 +12,7 @@ $.getJSON("/articles", function(data) {
   // For each one
   for (var i = 0; i < data.length; i++) {
     // Display the apropos information on the page
-    $("#articles").append(`<div class= "card mb-3"><div class="card-header article" data-id=${data[i]._id}>${data[i].title}</div>
+    $("#articles").prepend(`<div class= "card mb-3"><div class="card-header article" data-id=${data[i]._id}>${data[i].title}</div>
       <div class= "card-body"> <a href = 'http://www.bbc.com${data[i].link}' target="_blank">www.bbc.com${data[i].link}</a>
       <br /><br />${data[i].summary}<br />
       </div></div><div class= "comments" id=${data[i]._id}></div>`);
