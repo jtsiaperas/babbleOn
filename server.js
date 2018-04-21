@@ -57,7 +57,7 @@ app.get("/scrape", function(req, res) {
       
         
       // Create a new Article using the `result` object built from scraping
-      db.Article.create(result)
+      db.Article.upsert(result)
         .then(function(dbArticle) {
           // View the added result in the console
           console.log(dbArticle);
